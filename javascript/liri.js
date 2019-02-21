@@ -26,6 +26,7 @@ function userWantsTo(action, name){
         case 'spotify-this-song':
             spotifyThis(name);
         case 'movie-this':
+            movieThis(name);
         case 'do-what-it-says':
     }
 }
@@ -79,9 +80,19 @@ function spotifyThis(name){
         }
 });
 }
-
-
 //----------------------------------------------------
-// STUFF TO HELP WITH SPOTIFY API BELOW
-
-// https://www.npmjs.com/package/node-spotify-api
+// OMDB CODE
+//----------------------------------------------------
+// executes if user requests 'movie-this'
+function movieThis(name){
+    console.log(name);
+    // search omdb with axios
+    axios.get("https://www.omdbapi.com/?t=romancing+the+stone&y=&plot=short&apikey=trilogy")
+    .then(function (response) {
+        console.log(response);
+    })
+    // catch/log any errors
+    .catch(function (error) {
+        console.log(error);
+    });
+}
