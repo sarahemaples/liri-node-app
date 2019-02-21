@@ -31,8 +31,7 @@ function userWantsTo(action, name){
             movieThis(name);
             break;
         case 'do-what-it-says':
-            console.log('do what it says');
-            // doWhatItSays();
+            doWhatItSays();
     }
 }
 
@@ -42,9 +41,11 @@ function userWantsTo(action, name){
 // executes if user requests 'concert-this'
 function concertThis(name){
     // search Bands in Town api for band name
+    console.log(name);
     axios.get("https://rest.bandsintown.com/artists/" + name + "/events?app_id=codingbootcamp&date=upcoming")
     .then(function (response) {
         // format response nicely
+        console.log(response.data);
         response.data.forEach(function(e){
             console.log(e.venue.name);
             console.log(e.venue.city, response.data[0].venue.region);
@@ -117,25 +118,30 @@ function movieThis(name){
 // DO WHAT IT SAYS CODE
 //----------------------------------------------------
 // executes if user requests 'do-what-it-says'
-// function doWhatItSays(){
-//     fs.readFile("../random.txt", "utf8", function(err, data){
-//         if (err) {
-//             return console.log(err);
-//         }
-//         var info = data.split(",");
-//         var command = info[0];
+function doWhatItSays(){
+    fs.readFile("../random.txt", "utf8", function(err, data){
+        if (err) {
+            return console.log(err);
+        }
+        var info = data.split(",");
+        var command = info[0].trim().toString();
+        console.log(command);
+        var param = info[1].trim().toString();
+        console.log(param);
 
-//         // call proper function
-//         switch(command){
-//             case 'concert-this':
-//                 concertThis(info[1]);
-//                 break;
-//             case 'spotify-this-song':
-//                 spotifyThis(info[1]);
-//                 break;
-//             case 'movie-this':
-//                 movieThis(info[1]);
-//                 break;      
-//        }
-//     })
-// }
+        userWantsTo(command, param);
+
+        // call proper function
+    //     switch(command){
+    //         case 'concert-this':
+    //             concertThis(param);
+    //             break;
+    //         case 'spotify-this-song':
+    //             spotifyThis(param);
+    //             break;
+    //         case 'movie-this':
+    //             movieThis(param);
+    //             break;      
+    //    }
+    })
+}
