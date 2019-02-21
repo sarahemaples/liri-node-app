@@ -1,9 +1,9 @@
 require("dotenv").config();
 const axios = require("axios");
 var moment = require("moment");
-
 var keys = require("./key");
 var Spotify = require('node-spotify-api');
+var fs = require("fs");
 
 var spotify = new Spotify({
     id: keys.spotify.id,
@@ -23,11 +23,16 @@ function userWantsTo(action, name){
     switch(action){
         case 'concert-this':
             concertThis(name);
+            break;
         case 'spotify-this-song':
             spotifyThis(name);
+            break;
         case 'movie-this':
             movieThis(name);
+            break;
         case 'do-what-it-says':
+            console.log('do what it says');
+            // doWhatItSays();
     }
 }
 
@@ -85,14 +90,52 @@ function spotifyThis(name){
 //----------------------------------------------------
 // executes if user requests 'movie-this'
 function movieThis(name){
-    console.log(name);
-    // search omdb with axios
-    axios.get("https://www.omdbapi.com/?t=romancing+the+stone&y=&plot=short&apikey=trilogy")
-    .then(function (response) {
-        console.log(response);
-    })
-    // catch/log any errors
-    .catch(function (error) {
-        console.log(error);
-    });
+    // check a movie name was passed
+    if (name){
+        // search omdb with axios
+        axios.get("https://www.omdbapi.com/?t="+name+"&y=&plot=short&apikey=trilogy")
+            .then(function (response) {
+                console.log("* "+response.data.Title);
+                console.log("* "+response.data.Year);
+                console.log("* IMDB Rating: "+response.data.Ratings[0].Value);
+                console.log("* Rotten Tomatoes Rating: "+response.data.Ratings[1].Value);
+                console.log("* "+response.data.Country);
+                console.log("* "+response.data.Language);
+                console.log("* "+response.data.Plot);
+                console.log("* "+response.data.Actors);
+                console.log("------------------------------------");
+            })
+                // catch/log any errors
+                .catch(function (error) {
+                    console.log(error);
+                });
+    } else {
+        movieThis("mr nobody");
+    }
 }
+//----------------------------------------------------
+// DO WHAT IT SAYS CODE
+//----------------------------------------------------
+// executes if user requests 'do-what-it-says'
+// function doWhatItSays(){
+//     fs.readFile("../random.txt", "utf8", function(err, data){
+//         if (err) {
+//             return console.log(err);
+//         }
+//         var info = data.split(",");
+//         var command = info[0];
+
+//         // call proper function
+//         switch(command){
+//             case 'concert-this':
+//                 concertThis(info[1]);
+//                 break;
+//             case 'spotify-this-song':
+//                 spotifyThis(info[1]);
+//                 break;
+//             case 'movie-this':
+//                 movieThis(info[1]);
+//                 break;      
+//        }
+//     })
+// }
