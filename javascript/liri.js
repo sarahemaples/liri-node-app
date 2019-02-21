@@ -40,7 +40,6 @@ function concertThis(name){
     .then(function (response) {
         // format response nicely
         response.data.forEach(function(e){
-            console.log("------------------------------------");
             console.log(e.venue.name);
             console.log(e.venue.city, response.data[0].venue.region);
             console.log(moment(e.datetime).format("MM/DD/YYYY"));
@@ -60,12 +59,24 @@ function concertThis(name){
 function spotifyThis(name){
     spotify.search({ 
         type: 'track', 
-        query: 'All the Small Things' 
-    }, function(err, data) {
+        query: name
+    }, function(err, response) {
         if (err) {
             return console.log('Error occurred: ' + err);
         }
-        console.log(data); 
+        // if no songs appear, default 'the sign'
+        if (response.tracks.items.length > 0){
+            // loop through all the responses and format them nicely
+            response.tracks.items.forEach(function(e){
+                console.log(e.name);
+                console.log(e.album.artists[0].name);
+                console.log(e.album.name);
+                console.log(e.external_urls.spotify);
+                console.log("------------------------------------");
+            });
+        } else {
+            spotifyThis("The Sign");
+        }
 });
 }
 
