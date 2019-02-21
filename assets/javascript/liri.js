@@ -58,26 +58,19 @@ function concertThis(name){
 //----------------------------------------------------
 // executes if user requests 'spotify-this-song'
 function spotifyThis(name){
-    console.log(name);
+    spotify.search({ 
+        type: 'track', 
+        query: 'All the Small Things' 
+    }, function(err, data) {
+        if (err) {
+            return console.log('Error occurred: ' + err);
+        }
+        console.log(data); 
+});
 }
 
 
 //----------------------------------------------------
 // STUFF TO HELP WITH SPOTIFY API BELOW
-
-// var Spotify = require('node-spotify-api');
- 
-// var spotify = new Spotify({
-//   id: <your spotify client id>,
-//   secret: <your spotify client secret>
-// });
- 
-// spotify.search({ type: 'track', query: 'All the Small Things' }, function(err, data) {
-//   if (err) {
-//     return console.log('Error occurred: ' + err);
-//   }
- 
-// console.log(data); 
-// });
 
 // https://www.npmjs.com/package/node-spotify-api
