@@ -42,7 +42,7 @@ function userWantsTo(action, name){
 function concertThis(name){
     // search Bands in Town api for band name
     console.log(name);
-    axios.get("https://rest.bandsintown.com/artists/" + name + "/events?app_id=codingbootcamp&date=upcoming")
+    axios.get("https://rest.bandsintown.com/artists/" + name.toString() + "/events?app_id=codingbootcamp&date=upcoming")
     .then(function (response) {
         // format response nicely
         console.log(response.data);
@@ -126,7 +126,7 @@ function doWhatItSays(){
         var info = data.split(",");
         var command = info[0].trim().toString();
         console.log(command);
-        var param = info[1].trim().toString();
+        var param = info[1].trim();
         console.log(param);
 
         userWantsTo(command, param);
