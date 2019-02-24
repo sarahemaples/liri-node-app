@@ -41,11 +41,9 @@ function userWantsTo(action, name){
 // executes if user requests 'concert-this'
 function concertThis(name){
     // search Bands in Town api for band name
-    console.log(name);
     axios.get("https://rest.bandsintown.com/artists/" + name.toString() + "/events?app_id=codingbootcamp&date=upcoming")
     .then(function (response) {
         // format response nicely
-        console.log(response.data);
         response.data.forEach(function(e){
             console.log(e.venue.name);
             console.log(e.venue.city, response.data[0].venue.region);
@@ -125,10 +123,9 @@ function doWhatItSays(){
         }
         var info = data.split(",");
         var command = info[0].trim().toString();
-        console.log(command);
-        var param = info[1].trim();
-        console.log(param);
 
+        var param = info[1].trim();
+        
         userWantsTo(command, param);
 
         // call proper function
