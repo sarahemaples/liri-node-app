@@ -40,49 +40,59 @@ function userWantsTo(action, name){
 //----------------------------------------------------
 // executes if user requests 'concert-this'
 function concertThis(name){
-    // search Bands in Town api for band name
-    axios.get("https://rest.bandsintown.com/artists/" + name.toString() + "/events?app_id=codingbootcamp&date=upcoming")
-    .then(function (response) {
-        // format response nicely
-        response.data.forEach(function(e){
-            console.log(e.venue.name);
-            console.log(e.venue.city, response.data[0].venue.region);
-            console.log(moment(e.datetime).format("MM/DD/YYYY"));
-            console.log("------------------------------------");
-        })
-    })
-    // catch/log any errors
-    .catch(function (error) {
-        console.log(error);
-    });
+    // make sure user entered a band name
+    if (name){
+        // search Bands in Town api for band name
+        axios.get("https://rest.bandsintown.com/artists/" + name.toString() + "/events?app_id=codingbootcamp&date=upcoming")
+        .then(function (response) {
+            // format response nicely
+            response.data.forEach(function(e){
+                console.log("\n--------------------------\n");
+                console.log(e.venue.name);
+                console.log(e.venue.city, response.data[0].venue.region);
+                console.log(moment(e.datetime).format("MM/DD/YYYY"));
+                console.log("\n--------------------------\n");
+            })
 
+        })
+        // catch/log any errors
+        .catch(function (error) {
+            console.log(error);
+        });
+    } else {
+        console.log("No band name entered. Please submit a new request.");
+    }
 }
 //----------------------------------------------------
 // SPOTIFY CODE
 //----------------------------------------------------
 // executes if user requests 'spotify-this-song'
 function spotifyThis(name){
-    spotify.search({ 
-        type: 'track', 
-        query: name
-    }, function(err, response) {
-        if (err) {
-            return console.log('Error occurred: ' + err);
-        }
-        // if no songs appear, default 'the sign'
-        if (response.tracks.items.length > 0){
-            // loop through all the responses and format them nicely
-            response.tracks.items.forEach(function(e){
-                console.log(e.name);
-                console.log(e.album.artists[0].name);
-                console.log(e.album.name);
-                console.log(e.external_urls.spotify);
-                console.log("------------------------------------");
-            });
-        } else {
-            spotifyThis("The Sign");
-        }
-});
+    if (name){
+        spotify.search({ 
+            type: 'track', 
+            query: name
+        }, function(err, response) {
+            if (err) {
+                return console.log('Error occurred: ' + err);
+            }
+            if (response.tracks.items.length > 0){
+                // loop through all the responses and format them nicely
+                response.tracks.items.forEach(function(e){
+                    console.log("\n--------------------------\n");
+                    console.log(e.name);
+                    console.log(e.album.artists[0].name);
+                    console.log(e.album.name);
+                    console.log(e.external_urls.spotify);
+                    console.log("\n--------------------------\n");            });
+            // if no songs appear, default 'the sign'
+            } else {
+                spotifyThis("The Sign, Ace of Base");
+            }
+    });
+    } else {
+        spotifyThis("The Sign, Ace of Base");
+    }
 }
 //----------------------------------------------------
 // OMDB CODE
@@ -94,6 +104,13 @@ function movieThis(name){
         // search omdb with axios
         axios.get("https://www.omdbapi.com/?t="+name+"&y=&plot=short&apikey=trilogy")
             .then(function (response) {
+                console.log(response);
+                console.log("\n--------------------------\n");
+                console.log(response.data);
+                console.log("\n--------------------------\n");
+                console.log(response.data.length);
+                if (response){
+                console.log("\n--------------------------\n");
                 console.log("* "+response.data.Title);
                 console.log("* "+response.data.Year);
                 console.log("* IMDB Rating: "+response.data.Ratings[0].Value);
@@ -102,7 +119,10 @@ function movieThis(name){
                 console.log("* "+response.data.Language);
                 console.log("* "+response.data.Plot);
                 console.log("* "+response.data.Actors);
-                console.log("------------------------------------");
+                console.log("\n--------------------------\n");   
+                } else {
+                    movieThis("mr nobody");
+                }
             })
                 // catch/log any errors
                 .catch(function (error) {
