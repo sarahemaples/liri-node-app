@@ -104,22 +104,17 @@ function movieThis(name){
         // search omdb with axios
         axios.get("https://www.omdbapi.com/?t="+name+"&y=&plot=short&apikey=trilogy")
             .then(function (response) {
-                console.log(response);
-                console.log("\n--------------------------\n");
-                console.log(response.data);
-                console.log("\n--------------------------\n");
-                console.log(response.data.length);
                 if (response){
-                console.log("\n--------------------------\n");
-                console.log("* "+response.data.Title);
-                console.log("* "+response.data.Year);
-                console.log("* IMDB Rating: "+response.data.Ratings[0].Value);
-                console.log("* Rotten Tomatoes Rating: "+response.data.Ratings[1].Value);
-                console.log("* "+response.data.Country);
-                console.log("* "+response.data.Language);
-                console.log("* "+response.data.Plot);
-                console.log("* "+response.data.Actors);
-                console.log("\n--------------------------\n");   
+                    console.log("\n--------------------------\n");
+                    console.log("* "+response.data.Title);
+                    console.log("* "+response.data.Year);
+                    console.log("* IMDB Rating: "+response.data.Ratings[0].Value);
+                    console.log("* Rotten Tomatoes Rating: "+response.data.Ratings[1].Value);
+                    console.log("* "+response.data.Country);
+                    console.log("* "+response.data.Language);
+                    console.log("* "+response.data.Plot);
+                    console.log("* "+response.data.Actors);
+                    console.log("\n--------------------------\n");   
                 } else {
                     movieThis("mr nobody");
                 }
