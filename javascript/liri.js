@@ -42,8 +42,9 @@ function userWantsTo(action, name){
 function concertThis(name){
     // make sure user entered a band name
     if (name){
+        console.log(name.toString().replace(/['"]+/g, ''));
         // search Bands in Town api for band name
-        axios.get("https://rest.bandsintown.com/artists/" + name.toString() + "/events?app_id=codingbootcamp&date=upcoming")
+        axios.get("https://rest.bandsintown.com/artists/" + name.toString().replace(/['"]+/g, '') + "/events?app_id=codingbootcamp&date=upcoming")
         .then(function (response) {
             // format response nicely
             response.data.forEach(function(e){
